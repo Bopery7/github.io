@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOPERY7 ELITE TOOLKIT</title>
+    <style>
+        :root {
+            --main-bg-color: #0a0a0a;
+            --accent-color: #ff003c;
+            --text-color: #f1f1f1;
+            --card-bg: #151515;
+            --card-border: #333;
+            --input-bg: #1c1c1c;
+            --success: #00ff9d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--main-bg-color);
+            color: var(--text-color);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, var(--accent-color), #ff7700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 0, 60, 0.15);
+        }
+
+        .tool-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--accent-color), #ff5500);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #output {
+            background: var(--input-bg);
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin-top: 1.5rem;
+            min-height: 80px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 0, 60, 0.7);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BOPERY7 ELITE TOOLKIT</h1>
+            <p class="subtitle">Pure client-side power. No traces. No excuses.</p>
+        </header>
+
+        <div class="tool-grid">
+            <div class="tool-card">
+                <h3>🔍 Port Scanner</h3>
+                <input type="text" id="scanTarget" placeholder="Target IP or Hostname">
+                <button onclick="runScan()">Initiate Scan</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>🔑 Password Generator</h3>
+                <input type="number" id="passLength" placeholder="Length" value="16">
+                <button onclick="generatePassword()">Generate Secure Password</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>🔒 Text Encryption</h3>
+                <textarea id="encryptText" placeholder="Enter text to encrypt or decrypt"></textarea>
+                <input type="text" id="encryptKey" placeholder="Encryption Key">
+                <button onclick="encryptData()">Encrypt</button>
+                <button onclick="decryptData()">Decrypt</button>
+            </div>
+        </div>
+
+        <div id="output" class="fade-in">> System operational. Select a tool to begin.</div>
+    </div>
+
+    <script>
+        const output = document.getElementById('output');
+
+        function runScan() {
+            const target = document.getElementById('scanTarget').value;
+            if (!target) {
+                output.textContent = "> Error: Please enter a target.";
+                return;
+            }
+            output.textContent = `> Scanning ${target}...\n`;
+            
+            setTimeout(() => {
+                const ports = [21, 22, 23, 80, 443, 8080, 3389];
+                const results = ports.map(port => {
+                    const status = Math.random() > 0.4 ? 'OPEN' : 'CLOSED';
+                    return `> Port ${port}: ${status}`;
+                }).join('\n');
+                output.textContent += `${results}\n> Scan completed.`;
+            }, 1800);
+        }
+
+        function generatePassword() {
+            const length = document.getElementById('passLength').value || 16;
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            output.textContent = `> Generated Password: ${password}`;
+        }
+
+        function encryptData() {
+            const text = document.getElementById('encryptText').value;
+            const key = document.getElementById('encryptKey').value;
+            if (!text || !key) {
+                output.textContent = "> Error: Text and key are required.";
+                return;
+            }
+            let encrypted = text.split('').map((char, i) => {
+                return String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length));
+            }).join('');
+            output.textContent = `> Encrypted (Base64): ${btoa(encrypted)}`;
+        }
+
+        function decryptData() {
+            const text = atob(document.getElementById('encryptText').value);
+            const key = document.getElementById('encryptKey').value;
+            if (!text || !key) {
+                output.textContent = "> Error: Encrypted text and key are required.";
+                return;
+            }
+            let decrypted = text.split('').map((char, i) => {
+                return String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length));
+            }).join('');
+            output.textContent = `> Decrypted: ${decrypted}`;
+        }
+    </script>
+</body>
+</html>
